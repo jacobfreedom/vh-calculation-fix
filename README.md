@@ -22,10 +22,18 @@ If your site is a generic dashboard or template, you probably don’t need this.
 
 ### Minimal JS
 
-```ts
+```js
 import { initViewportHeight } from 'vh-calculation-fix';
 
 initViewportHeight();
+```
+
+### CommonJS
+
+```js
+const { initViewportHeight } = require('vh-calculation-fix');
+
+initViewportHeight({ updateOnFocus: true });
 ```
 
 ### Minimal CSS
@@ -97,7 +105,7 @@ Steel Cut shows px/rem‑only design shifting between macOS “Default” and �
 
 - With options:
 
-```
+```js
 initViewportHeight({
   useMinOnIOS: true,
   updateOnFocus: true,
@@ -199,7 +207,7 @@ Targets modern browsers that support `visualViewport` and gracefully falls back 
 ## Build & Scripts
 
 - `npm run build`: Emits ESM/CJS bundles and type definitions to `dist`.
-- `npm run test`: Runs unit tests with Vitest.
+- `npm run test`: Builds then runs unit tests with Vitest.
 - `npm run lint`: Lints the codebase with ESLint.
 - `npm run typecheck`: TypeScript type checking with `tsc --noEmit`.
 
@@ -208,3 +216,11 @@ Targets modern browsers that support `visualViewport` and gracefully falls back 
 ## License
 
 [MIT](./LICENSE)
+
+## Migration (JavaScript developers)
+
+- No TypeScript required. Import ESM or require CJS from `vh-calculation-fix`.
+- Use `initViewportHeight(options?)` to set `--svh`/`--lvh`; options is a plain object.
+- Error messages are type‑agnostic and describe invalid option values.
+- For in‑browser `<script type="module">`, use the ESM import example above.
+- For Node/CommonJS bundlers, use the `require` example above.

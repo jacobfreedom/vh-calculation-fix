@@ -1,1 +1,1 @@
-export { setViewportHeight, initViewportHeight } from './src/index.ts';
+export { setViewportHeight, initViewportHeight } from './dist/index.js';

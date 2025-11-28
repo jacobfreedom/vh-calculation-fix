@@ -20,7 +20,7 @@
     "dev": "tsup src/index.ts --watch --dts --format esm,cjs --target es2018",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "npm run build && vitest run"
   },
   "keywords": [
     "vh",
