@@ -11,7 +11,30 @@ If your site is a generic dashboard or template, you probably don’t need this.
 
 [badges here]
 
- 
+## Quick Start
+
+### Installation
+
+- npm: `npm install vh-calculation-fix`
+- yarn: `yarn add vh-calculation-fix`
+
+### Minimal JS
+
+```ts
+import { initViewportHeight } from 'vh-calculation-fix';
+
+initViewportHeight();
+```
+
+### Minimal CSS
+
+```css
+.hero {
+  min-height: var(--lvh);
+  display: grid;
+  place-items: center;
+}
+```
 
 ## Visual Overview
 
@@ -22,7 +45,7 @@ This library is about preserving original design intent across display modes and
 #### GIF — Clamped vw typography
 ![Pure vw layout breaking](./imgs/gifs/pure-vw.gif)
 
-#### GIF — vh-calculation-fix typography & layout stays visually stable as the visible height changes
+#### GIF — vh-calculation-fix typography
 ![vh-calculation-fix layout holding up](./imgs/gifs/vh-tool-and-vw.gif)
 
 - GIF 1 (pure `vw`): width‑only layout warps when viewport changes or app chrome appears.
@@ -42,7 +65,7 @@ This library is about preserving original design intent across display modes and
 #### Dopesites — More Space resolution (1710×1112)
 ![Dopesites — More Space (1710×1112)](./imgs/img-4.png)
 
-Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and “More Space”. Dopesites and Instagram demonstrate how `var(--lvh)` and a visible‑height‑driven spacing system preserve the same look across resolutions and under in‑app chrome.
+Steel Cut shows px/rem‑only design shifting between macOS “Default” and “More Space” resolutions. Dopesites demonstrates how `var(--lvh)` or `var(--svh)` and a visible‑height‑driven spacing system preserve the same look across resolutions and under in‑app chrome.
 
 ## When You Should (and Shouldn’t) Use This
 
@@ -68,31 +91,6 @@ Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and �
 - Faking vertical rhythm with `vw` assumes aspect ratios and ignores the very chrome that breaks layouts.
 - `vw` is great for horizontal sizing; it’s a poor default for section heights/vertical spacing.
 - For vertical rhythm (section heights, top/bottom spacing, type scale), use metrics derived from actual visible height — provided via `--svh`/`--lvh` in `vh-calculation-fix`.
-
-## Quick Start
-
-### Installation
-
-- npm: `npm install vh-calculation-fix`
-- yarn: `yarn add vh-calculation-fix`
-
-### Minimal JS
-
-```ts
-import { initViewportHeight } from 'vh-calculation-fix';
-
-initViewportHeight();
-```
-
-### Minimal CSS
-
-```css
-.hero {
-  min-height: var(--lvh);
-  display: grid;
-  place-items: center;
-}
-```
 
 ## Usage
 
