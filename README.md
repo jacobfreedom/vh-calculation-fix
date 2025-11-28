@@ -1,6 +1,6 @@
 # vh-calculation-fix
 
-Runtime helper that computes the visible viewport height in real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken `vh`. Built to keep design‑intent layouts visually consistent across display modes and app browsers.
+Precision runtime helper that computes the visible viewport height on real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken CSS `vh`. Built for art‑directed, design‑intent layouts that must stay visually consistent across display modes and app browsers. If your site is a generic dashboard or a "UX wrapped template" so called "designed" from copy-paste components, you probably don’t need this.
 
 - Provides reliable `--svh` and `--lvh` CSS variables that behave correctly in in‑app browsers and WebViews.
 - Fixes broken `vh` behavior in environments like Instagram, WhatsApp, Telegram, and generic WebViews.
@@ -11,29 +11,29 @@ Runtime helper that computes the visible viewport height in real devices and in�
 
 ## Visual Overview
 
-This library is about preserving original design intent across display modes and in‑app browsers. It is not generic responsive boilerplate; the goal is to keep layouts looking the same when chrome/keyboard alter the visible height.
+This library is about preserving original design intent across display modes and in‑app browsers. It is not generic responsive boilerplate; the goal is to keep heroes, sections, and spacing looking the same when in-app scrolling alters the visible height.
 
 ### High-level comparison (GIFs first)
 
 ![Pure vw layout breaking](./imgs/gifs/pure-vw.gif)
 ![vh-calculation-fix layout holding up](./imgs/gifs/vh-tool-and-vw.gif)
 
-- GIF 1 (pure `vw`): naive width‑based layout warps when viewport changes or app chrome appears.
-- GIF 2 (`var(--lvh)` + fluid system): layout stays stable as visible height changes.
+- GIF 1 (pure clamped `vw`): width‑only layout warps when viewport changes or app chrome appears.
+- GIF 2 (`var(--lvh)` + fluid system): layout stays visually stable as the visible height changes.
 
 ### Static examples
 
-#### Steel Cut — default (1470×956)
+#### Steel Cut — Default resolution (1470×956)
 ![Steel Cut — default (1470×956)](./imgs/img-1.png)
 
-#### Steel Cut — More Space (1710×1112)
+#### Steel Cut — More Space resolution Initial Design (1710×1112)
 ![Steel Cut — More Space (1710×1112)](./imgs/img-2.png)
 
-#### Dopesites — fluid spacing
-![Dopesites — fluid spacing](./imgs/img-3.png)
+#### Dopesites — Default resolution (1470×956)
+![Dopesites — Default (1470×956)](./imgs/img-3.png)
 
-#### Instagram — in‑app fix applied
-![Instagram — in‑app fix applied](./imgs/img-4.png)
+#### Dopesites — More Space resolution Initial Design (1710×1112)
+![Dopesites — More Space (1710×1112)](./imgs/img-4.png)
 
 Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and “More Space”. Dopesites and Instagram demonstrate how `var(--lvh)` and a visible‑height‑driven spacing system preserve the same look across resolutions and under in‑app chrome.
 
@@ -41,7 +41,7 @@ Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and �
 
 - Use for design‑driven projects with art‑directed layouts and precise Figma specs.
 - Use when your hero, sections, and typography spacing are part of the concept and must remain visually consistent.
-- Probably don’t bother for generic CRUD dashboards or utility‑first boilerplate where minor shifts are acceptable.
+- If your site is a generic or utility‑first boilerplate, minor shifts are fine and you probably don’t need this.
 
 ## Why raw `vh` breaks in real apps
 
@@ -49,7 +49,7 @@ Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and �
 - Virtual keyboards shrink the visible area during input.
 - Mobile Safari adjusts viewport on scroll, changing the visible height.
 - CSS `vh` ignores these dynamics, so `100vh` ≠ visually available height.
-- Symptoms: cropped heroes, content jumping, layouts that only break inside Instagram/WhatsApp/Telegram.
+- Symptoms: cropped heroes, content jumping, layouts that only break inside Instagram/WhatsApp/Telegram — this library addresses that by driving CSS with the actual visible height.
 
 
 
@@ -58,7 +58,7 @@ Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and �
 - `vw` is tied to width while the core problem is vertical space disappearing under chrome/keyboard.
 - Faking vertical rhythm with `vw` assumes aspect ratios and ignores the very chrome that breaks layouts.
 - `vw` is great for horizontal sizing; it’s a poor default for section heights/vertical spacing.
-- For vertical rhythm (section heights, top/bottom spacing, type scale), use metrics derived from actual visible height — provided via `--svh`/`--lvh`.
+- For vertical rhythm (section heights, top/bottom spacing, type scale), use metrics derived from actual visible height — provided via `--svh`/`--lvh` in `vh-calculation-fix`.
 
 ## Quick Start
 
