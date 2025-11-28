@@ -10,11 +10,6 @@
  */
 export type ViewportOptions = {
   forceInApp?: boolean;
-  useMinOnIOS?: boolean;
-  variableNames?: { svh?: string; lvh?: string };
-  apps?: RegExp;
-  updateOnFocus?: boolean;
-  onUpdate?: (svh: number, lvh: number) => void;
 };
 
 const getUA = (): string => (typeof navigator !== 'undefined' ? navigator.userAgent : '') || (typeof window !== 'undefined' ? (window as any).opera : '') || '';
@@ -27,26 +22,9 @@ const validateOptions = (options: any) => {
   if (options.forceInApp != null && t(options.forceInApp) !== 'boolean') {
     throw new TypeError('initViewportHeight: options.forceInApp must be a boolean');
   }
-  if (options.useMinOnIOS != null && t(options.useMinOnIOS) !== 'boolean') {
-    throw new TypeError('initViewportHeight: options.useMinOnIOS must be a boolean');
-  }
-  if (options.variableNames != null) {
-    const vn = options.variableNames;
-    if (vn.svh != null && t(vn.svh) !== 'string') {
-      throw new TypeError('initViewportHeight: options.variableNames.svh must be a string');
-    }
-    if (vn.lvh != null && t(vn.lvh) !== 'string') {
-      throw new TypeError('initViewportHeight: options.variableNames.lvh must be a string');
-    }
-  }
-  if (options.apps != null && !(options.apps instanceof RegExp)) {
-    throw new TypeError('initViewportHeight: options.apps must be a RegExp');
-  }
-  if (options.updateOnFocus != null && t(options.updateOnFocus) !== 'boolean') {
-    throw new TypeError('initViewportHeight: options.updateOnFocus must be a boolean');
-  }
-  if (options.onUpdate != null && t(options.onUpdate) !== 'function') {
-    throw new TypeError('initViewportHeight: options.onUpdate must be a function');
+  // only forceInApp is supported
+  if (options.forceInApp != null && t(options.forceInApp) !== 'boolean') {
+    throw new TypeError('initViewportHeight: options.forceInApp must be a boolean');
   }
 };
 
@@ -84,16 +62,11 @@ export const computeHeights = (ua: string, useMinOnIOS: boolean): { svh: number;
  * @param lvh Large/visible viewport height in pixels
  * @param variableNames Optional overrides for variable names
  */
-export const applyVars = (svh: number, lvh: number, variableNames?: { svh?: string; lvh?: string }) => {
+export const applyVars = (svh: number, lvh: number) => {
   const doc = typeof document !== 'undefined' ? document.documentElement : null;
   if (!doc) return;
-  const sv = variableNames?.svh ?? '--svh';
-  const lv = variableNames?.lvh ?? '--lvh';
-  if (typeof sv !== 'string' || typeof lv !== 'string') {
-    throw new TypeError('applyVars: variableNames.svh and .lvh must be strings when provided');
-  }
-  doc.style.setProperty(sv, `${svh}px`);
-  doc.style.setProperty(lv, `${lvh}px`);
+  doc.style.setProperty('--svh', `${svh}px`);
+  doc.style.setProperty('--lvh', `${lvh}px`);
 };
 
 /**
@@ -110,23 +83,23 @@ export const applyVars = (svh: number, lvh: number, variableNames?: { svh?: stri
 export const initViewportHeight = (options: ViewportOptions = {}) => {
   validateOptions(options);
   const ua = getUA();
-  const inApp = isInApp(ua, options.forceInApp, options.apps ?? defaultApps);
+  const inApp = isInApp(ua, options.forceInApp, defaultApps);
+  const supportsNative = typeof CSS !== 'undefined'
+    && (CSS.supports('height: 100lvh') || CSS.supports('height: 100svh'));
+  const preferPixels = inApp || !supportsNative;
 
-  if (!inApp) {
+  if (!preferPixels && supportsNative) {
     const doc = typeof document !== 'undefined' ? document.documentElement : null;
     if (doc) {
-      const sv = options.variableNames?.svh ?? '--svh';
-      const lv = options.variableNames?.lvh ?? '--lvh';
-      doc.style.setProperty(sv, '100svh');
-      doc.style.setProperty(lv, '100lvh');
+      doc.style.setProperty('--svh', '100svh');
+      doc.style.setProperty('--lvh', '100lvh');
     }
     return () => {};
   }
 
   const update = () => {
-    const { svh, lvh } = computeHeights(ua, options.useMinOnIOS ?? true);
-    applyVars(svh, lvh, options.variableNames);
-    options.onUpdate?.(svh, lvh);
+    const { svh, lvh } = computeHeights(ua, true);
+    applyVars(svh, lvh);
   };
 
   update();
@@ -136,10 +109,6 @@ export const initViewportHeight = (options: ViewportOptions = {}) => {
   if (typeof window !== 'undefined') {
     window.addEventListener('resize', onResize, { passive: true });
     window.addEventListener('orientationchange', onResize, { passive: true });
-    if (options.updateOnFocus) {
-      window.addEventListener('focusin', onResize, { passive: true });
-      window.addEventListener('focusout', onResize, { passive: true });
-    }
   }
   if (vv) {
     vv.addEventListener('resize', onResize, { passive: true });
@@ -149,10 +118,7 @@ export const initViewportHeight = (options: ViewportOptions = {}) => {
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('orientationchange', onResize);
-      if (options.updateOnFocus) {
-        window.removeEventListener('focusin', onResize);
-        window.removeEventListener('focusout', onResize);
-      }
+      // no focus listeners in minimal API
     }
     if (vv) {
       vv.removeEventListener('resize', onResize);

@@ -32,7 +32,7 @@ initViewportHeight();
 ```js
 const { initViewportHeight } = require('vh-calculation-fix');
 
-initViewportHeight({ updateOnFocus: true });
+initViewportHeight();
 ```
 
 ### Minimal CSS
@@ -133,16 +133,8 @@ Steel Cut shows px/rem‑only design shifting between macOS “Default” and �
 
 ### Vanilla JS
 
-- With options:
-
 ```js
-initViewportHeight({
-  useMinOnIOS: true,
-  updateOnFocus: true,
-  onUpdate: (svh, lvh) => {
-    // handle updates
-  }
-});
+initViewportHeight();
 ```
 
 When to use:
@@ -152,18 +144,23 @@ When to use:
 
 ### React
 
-```
+```js
 import { useEffect } from 'react';
-import { initViewportHeight } from 'vh-calculation-fix';
+import { setViewportHeight } from 'vh-calculation-fix';
 
 export function App() {
   useEffect(() => {
-    const stop = initViewportHeight({ updateOnFocus: true });
-    return () => stop();
+    setViewportHeight();
   }, []);
   return <div style={{ minHeight: 'var(--lvh)' }}>...</div>;
 }
 ```
+
+Notes:
+- Auto-switching: non in-app browsers that support native `svh`/`lvh` use those units; in-app/WebViews or unsupported browsers use pixel values.
+- Ensure your CSS uses `var(--lvh)` or `var(--svh)`.
+- In SSR frameworks (Next.js), run initialization in `useEffect`.
+- React Strict Mode double-invokes effects in dev; cleanup prevents duplicates.
 
 When to use:
 - App shells and layouts that must adapt to visible height.
@@ -190,8 +187,7 @@ When to use:
 - `--svh`: safe viewport height based on `window.innerHeight` for stable content sizing.
 - `--lvh`: large/visible viewport height reflecting real on‑screen space using `visualViewport.height` plus platform rules.
 - Both update on viewport changes so CSS scales fluidly with the actual visible height.
-- Variable names are customizable via options.
- - On iOS, `useMinOnIOS` caps `--lvh` with `min(visualViewport.height, innerHeight)` to avoid overexpansion.
+- On iOS, `--lvh` is capped using `min(visualViewport.height, innerHeight)` to avoid overexpansion.
 
 
 ## API
@@ -204,26 +200,14 @@ When to use:
 ```ts
 type Options = {
   forceInApp?: boolean;
-  useMinOnIOS?: boolean;
-  variableNames?: { svh?: string; lvh?: string };
-  apps?: RegExp;
-  updateOnFocus?: boolean;
-  onUpdate?: (svh: number, lvh: number) => void;
 };
 ```
 
-- `forceInApp`: Force in‑app logic regardless of UA detection (testing/debugging).
-- `useMinOnIOS`: Prevent overexpansion on iOS; recommended for mobile Safari.
-- `variableNames`: Override CSS variable names if your project uses custom tokens.
-- `apps`: Extend UA detection for additional app browsers/WebViews if required.
-- `updateOnFocus`: Recalculate on focusin/focusout; helps pages with inputs/keyboard.
-- `onUpdate`: Callback invoked after updates with numeric `svh`/`lvh` values.
+- `forceInApp`: Force in‑app behavior (testing/debugging only).
 
 ## Troubleshooting
 
 - Variables aren’t updating — Ensure `initViewportHeight()` runs once on page/app mount before styles that use `var(--lvh)`.
-- Content jumps when keyboard opens — Set `updateOnFocus: true` to recalc on focus events and stabilize form views.
-- Safari iOS overexpands — Keep `useMinOnIOS: true` so visible height is capped to avoid overflows.
 - `visualViewport` missing — Library falls back to `innerHeight`; layouts remain consistent on older devices.
 
 ## Compatibility
