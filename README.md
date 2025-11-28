@@ -9,7 +9,9 @@ If your site is a generic dashboard or template, you probably don’t need this.
 - Demo: `https://vanilla-dopesites.vercel.app/`
 - Design reference: Figma `https://www.figma.com/design/ymd9XlC1rq8OJIOJv7zNRV/DOPESITES?node-id=0-1&t=GdkJITg1mUZwE1nP-1`
 
-[badges here]
+[![npm version](https://img.shields.io/npm/v/vh-calculation-fix.svg?color=blue)](https://www.npmjs.com/package/vh-calculation-fix)
+[![GitHub stars](https://img.shields.io/github/stars/jacobfreedom/vh-calculation-fix.svg?color=yellow)](https://github.com/jacobfreedom/vh-calculation-fix)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 ## Quick Start
 
@@ -42,14 +44,11 @@ This library is about preserving original design intent across display modes and
 
 ### High-level comparison (GIFs first)
 
-#### GIF — Clamped vw typography
+#### GIF — Clamped vw
 ![Pure vw layout breaking](./imgs/gifs/pure-vw.gif)
 
-#### GIF — vh-calculation-fix typography
+#### GIF — vh-calculation-fix typography & spacing
 ![vh-calculation-fix layout holding up](./imgs/gifs/vh-tool-and-vw.gif)
-
-- GIF 1 (pure `vw`): width‑only layout warps when viewport changes or app chrome appears.
-- GIF 2 (`var(--lvh)` + fluid system): layout stays visually stable as the visible height changes.
 
 ### Static examples
 
@@ -208,4 +207,4 @@ Targets modern browsers that support `visualViewport` and gracefully falls back 
 
 ## License
 
-MIT
+[MIT](./LICENSE)

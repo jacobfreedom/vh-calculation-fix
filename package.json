@@ -33,6 +33,17 @@
     "android"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobfreedom/vh-calculation-fix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jacobfreedom/vh-calculation-fix/issues"
+  },
+  "homepage": "https://github.com/jacobfreedom/vh-calculation-fix#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {},
   "devDependencies": {
     "tsup": "^8.0.0",
