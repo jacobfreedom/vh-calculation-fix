@@ -1,6 +1,6 @@
 {
   "name": "vh-calculation-fix",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reliable viewport height CSS variables for in-app browsers and mobile WebViews.",
   "type": "module",
   "main": "dist/index.cjs",

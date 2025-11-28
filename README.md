@@ -7,7 +7,6 @@ If your site is a generic dashboard or template, you probably don’t need this.
 - Provides reliable `--svh` and `--lvh` CSS variables that behave correctly in in‑app browsers and WebViews.
 - Fixes broken `vh` behavior in environments like Instagram, WhatsApp, Telegram, and generic WebViews.
 - Demo: `https://vanilla-dopesites.vercel.app/`
-- Design reference: Figma `https://www.figma.com/design/ymd9XlC1rq8OJIOJv7zNRV/DOPESITES?node-id=0-1&t=GdkJITg1mUZwE1nP-1`
 
 [![npm version](https://img.shields.io/npm/v/vh-calculation-fix.svg?color=blue)](https://www.npmjs.com/package/vh-calculation-fix)
 [![GitHub stars](https://img.shields.io/github/stars/jacobfreedom/vh-calculation-fix.svg?color=yellow)](https://github.com/jacobfreedom/vh-calculation-fix)
@@ -43,6 +42,37 @@ initViewportHeight({ updateOnFocus: true });
   min-height: var(--lvh);
   display: grid;
   place-items: center;
+}
+```
+
+### Core Setup (Figma scale)
+
+Design reference: Figma `https://www.figma.com/design/ymd9XlC1rq8OJIOJv7zNRV/DOPESITES?node-id=0-1&t=GdkJITg1mUZwE1nP-1`
+
+```css
+:root {
+  --sp-x-7: calc(7 / 1728 * 100vw);
+  --sp-x-13: calc(13 / 1728 * 100vw);
+  --sp-x-33: calc(33 / 1728 * 100vw);
+  --sp-x-42: calc(42 / 1728 * 100vw);
+  --sp-x-95: calc(95 / 1728 * 100vw);
+  --sp-x-109: calc(109 / 1728 * 100vw);
+  --sp-x-268: calc(268 / 1728 * 100vw);
+
+  --sp-y-7: calc(7 / 1117 * var(--lvh));
+  --sp-y-45: calc(45 / 1117 * var(--lvh));
+  --sp-y-95: calc(95 / 1117 * var(--lvh));
+  --sp-y-109: calc(109 / 1117 * var(--lvh));
+  --sp-y-120: calc(120 / 1117 * var(--lvh));
+  --sp-y-127: calc(127 / 1117 * var(--lvh));
+  --sp-y-268: calc(268 / 1117 * var(--lvh));
+
+  --fs-12: calc(12 / 1117 * var(--lvh));
+  --fs-13: calc(13 / 1117 * var(--lvh));
+  --fs-14: calc(14 / 1117 * var(--lvh));
+  --fs-15: calc(15 / 1117 * var(--lvh));
+  --fs-20: calc(20 / 1117 * var(--lvh));
+  --fs-logo: calc(128 / 1117 * var(--lvh));
 }
 ```
 
