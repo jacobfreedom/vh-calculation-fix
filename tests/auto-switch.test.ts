@@ -51,15 +51,13 @@ describe('initViewportHeight auto-switching', () => {
     expect(typeof stop).toBe('function');
   });
 
-  it('uses pixel values and listeners in in-app', () => {
+  it('uses pixel values in in-app', () => {
     const { setProperty } = setupEnv(true);
     const stop = initViewportHeight({ forceInApp: true });
     const svhCall = setProperty.mock.calls.find((c: any[]) => c[0] === '--svh');
     const lvhCall = setProperty.mock.calls.find((c: any[]) => c[0] === '--lvh');
     expect(svhCall[1]).toMatch(/px$/);
     expect(lvhCall[1]).toMatch(/px$/);
-    expect((globalThis as any).window.addEventListener).toHaveBeenCalled();
     stop();
-    expect((globalThis as any).window.removeEventListener).toHaveBeenCalled();
   });
 });

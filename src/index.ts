@@ -104,26 +104,7 @@ export const initViewportHeight = (options: ViewportOptions = {}) => {
 
   update();
 
-  const vv: any = typeof window !== 'undefined' ? (window as any).visualViewport : null;
-  const onResize = () => update();
-  if (typeof window !== 'undefined') {
-    window.addEventListener('resize', onResize, { passive: true });
-    window.addEventListener('orientationchange', onResize, { passive: true });
-  }
-  if (vv) {
-    vv.addEventListener('resize', onResize, { passive: true });
-  }
-
-  return () => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('orientationchange', onResize);
-      // no focus listeners in minimal API
-    }
-    if (vv) {
-      vv.removeEventListener('resize', onResize);
-    }
-  };
+  return () => {};
 };
 
 /**

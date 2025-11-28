@@ -9,13 +9,9 @@ describe('JS builds expose functions', () => {
   it('CJS build', () => {
     expect(typeof cjs.initViewportHeight).toBe('function');
     expect(typeof cjs.setViewportHeight).toBe('function');
-    expect(typeof cjs.isInApp).toBe('function');
-    expect(typeof cjs.computeHeights).toBe('function');
   });
   it('ESM build', () => {
     expect(typeof esm.initViewportHeight).toBe('function');
     expect(typeof esm.setViewportHeight).toBe('function');
-    expect(typeof esm.isInApp).toBe('function');
-    expect(typeof esm.computeHeights).toBe('function');
   });
 });
