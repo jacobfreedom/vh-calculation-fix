@@ -1,6 +1,8 @@
 # vh-calculation-fix
 
-Precision runtime helper that computes the visible viewport height on real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken CSS `vh`. Built for art‑directed, design‑intent layouts that must stay visually consistent across display modes and app browsers. If your site is a generic dashboard or a "UX wrapped template" so called "designed" from copy-paste components, you probably don’t need this.
+Precision runtime helper that computes the visible viewport height on real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken CSS `vh`. Built for art‑directed, design‑intent layouts that must stay visually consistent across display modes and app browsers. Wire it in once and stop writing per‑app `vh` hacks; this saves hours of viewport debugging across Instagram, WhatsApp, Telegram, odd WebViews, and iOS Safari quirks. 
+
+If your site is a generic dashboard or template, you probably don’t need this.
 
 - Provides reliable `--svh` and `--lvh` CSS variables that behave correctly in in‑app browsers and WebViews.
 - Fixes broken `vh` behavior in environments like Instagram, WhatsApp, Telegram, and generic WebViews.
@@ -9,16 +11,21 @@ Precision runtime helper that computes the visible viewport height on real devic
 
 [badges here]
 
+ 
+
 ## Visual Overview
 
 This library is about preserving original design intent across display modes and in‑app browsers. It is not generic responsive boilerplate; the goal is to keep heroes, sections, and spacing looking the same when in-app scrolling alters the visible height.
 
 ### High-level comparison (GIFs first)
 
+#### GIF — Clamped vw typography
 ![Pure vw layout breaking](./imgs/gifs/pure-vw.gif)
+
+#### GIF — vh-calculation-fix typography & layout stays visually stable as the visible height changes
 ![vh-calculation-fix layout holding up](./imgs/gifs/vh-tool-and-vw.gif)
 
-- GIF 1 (pure clamped `vw`): width‑only layout warps when viewport changes or app chrome appears.
+- GIF 1 (pure `vw`): width‑only layout warps when viewport changes or app chrome appears.
 - GIF 2 (`var(--lvh)` + fluid system): layout stays visually stable as the visible height changes.
 
 ### Static examples
@@ -26,13 +33,13 @@ This library is about preserving original design intent across display modes and
 #### Steel Cut — Default resolution (1470×956)
 ![Steel Cut — default (1470×956)](./imgs/img-1.png)
 
-#### Steel Cut — More Space resolution Initial Design (1710×1112)
+#### Steel Cut — More Space resolution (1710×1112)
 ![Steel Cut — More Space (1710×1112)](./imgs/img-2.png)
 
 #### Dopesites — Default resolution (1470×956)
 ![Dopesites — Default (1470×956)](./imgs/img-3.png)
 
-#### Dopesites — More Space resolution Initial Design (1710×1112)
+#### Dopesites — More Space resolution (1710×1112)
 ![Dopesites — More Space (1710×1112)](./imgs/img-4.png)
 
 Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and “More Space”. Dopesites and Instagram demonstrate how `var(--lvh)` and a visible‑height‑driven spacing system preserve the same look across resolutions and under in‑app chrome.
@@ -42,6 +49,8 @@ Steel Cut shows px/rem‑only layouts shifting between macOS “Default” and �
 - Use for design‑driven projects with art‑directed layouts and precise Figma specs.
 - Use when your hero, sections, and typography spacing are part of the concept and must remain visually consistent.
 - If your site is a generic or utility‑first boilerplate, minor shifts are fine and you probably don’t need this.
+- Don’t use this for UI‑kit clones, generic marketing templates, or rounded‑button dashboards where small shifts are acceptable.
+- If you hand off pixel‑perfect layouts to picky clients or studios, this saves significant time chasing `vh` bugs across random in‑app browsers.
 
 ## Why raw `vh` breaks in real apps
 
