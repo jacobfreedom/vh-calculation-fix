@@ -1,11 +1,9 @@
 # vh-calculation-fix
 
-Precision runtime helper that computes the visible viewport height on real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken CSS `vh`. Built for art‑directed, design‑intent layouts that must stay visually consistent across display modes and app browsers. Wire it in once and stop writing per‑app `vh` hacks; this saves hours of viewport debugging across Instagram, WhatsApp, Telegram, odd WebViews, and iOS Safari quirks. 
-
-If your site is a generic dashboard or template, you probably don’t need this.
+Precision runtime helper that computes the visible viewport height on real devices and in‑app browsers. Exposes `--svh` and `--lvh` so you don’t rely on broken CSS `vh`. Built for art‑directed, design‑intent layouts that must stay visually consistent across display modes and app browsers. Initialize once to eliminate per‑environment viewport workarounds, reducing debugging overhead across Instagram, WhatsApp, WebViews, and iOS Safari.
 
 - Provides reliable `--svh` and `--lvh` CSS variables that behave correctly in in‑app browsers and WebViews.
-- Fixes broken `vh` behavior in environments like Instagram, WhatsApp, Telegram, and generic WebViews.
+- Fixes broken `vh` behavior in environments like Instagram, WhatsApp, and generic WebViews.
 - Demo: `https://vanilla-dopesites.vercel.app/`
 
 [![npm version](https://img.shields.io/npm/v/vh-calculation-fix.svg?color=blue)](https://www.npmjs.com/package/vh-calculation-fix)
@@ -19,7 +17,7 @@ If your site is a generic dashboard or template, you probably don’t need this.
 - npm: `npm install vh-calculation-fix`
 - yarn: `yarn add vh-calculation-fix`
 
-### Minimal JS
+### ESM
 
 ```js
 import { initViewportHeight } from 'vh-calculation-fix';
@@ -78,9 +76,9 @@ Design reference: Figma `https://www.figma.com/design/ymd9XlC1rq8OJIOJv7zNRV/DOP
 
 ## Visual Overview
 
-This library is about preserving original design intent across display modes and in‑app browsers. It is not generic responsive boilerplate; the goal is to keep heroes, sections, and spacing looking the same when in-app scrolling alters the visible height.
+This library is about preserving original design intent across display modes and in‑app browsers. The goal is to keep heroes, sections, and spacing visually consistent when in-app scrolling alters the visible height.
 
-### High-level comparison (GIFs first)
+### Visual Comparison
 
 #### GIF — Clamped vw
 ![Pure vw layout breaking](./imgs/gifs/pure-vw.gif)
@@ -108,9 +106,8 @@ Steel Cut shows px/rem‑only design shifting between macOS “Default” and �
 
 - Use for design‑driven projects with art‑directed layouts and precise Figma specs.
 - Use when your hero, sections, and typography spacing are part of the concept and must remain visually consistent.
-- If your site is a generic or utility‑first boilerplate, minor shifts are fine and you probably don’t need this.
-- Don’t use this for UI‑kit clones, generic marketing templates, or rounded‑button dashboards where small shifts are acceptable.
-- If you hand off pixel‑perfect layouts to picky clients or studios, this saves significant time chasing `vh` bugs across random in‑app browsers.
+- For projects where minor layout variance is acceptable, the native browser defaults may be sufficient.
+- For teams delivering custom design layouts to clients or studios with exacting requirements, this eliminates time spent resolving `vh` inconsistencies across in-app browsers.
 
 ## Why raw `vh` breaks in real apps
 
@@ -146,11 +143,11 @@ When to use:
 
 ```js
 import { useEffect } from 'react';
-import { setViewportHeight } from 'vh-calculation-fix';
+import { initViewportHeight } from 'vh-calculation-fix';
 
 export function App() {
   useEffect(() => {
-    setViewportHeight();
+    initViewportHeight();
   }, []);
   return <div style={{ minHeight: 'var(--lvh)' }}>...</div>;
 }
